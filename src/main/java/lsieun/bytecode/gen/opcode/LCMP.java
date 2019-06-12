@@ -1,0 +1,15 @@
+package lsieun.bytecode.gen.opcode;
+
+import lsieun.bytecode.gen.cst.OpcodeConst;
+
+/**
+ * LCMP - Compare longs:
+ * <PRE>Stack: ..., value1.word1, value1.word2, value2.word1, value2.word2 -&gt; ..., result &lt;= -1, 0, 1&gt;</PRE>
+ */
+public final class LCMP extends Instruction {
+
+    public LCMP() {
+        super(OpcodeConst.LCMP, 1);
+    }
+
+}

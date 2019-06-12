@@ -1,0 +1,19 @@
+package lsieun.bytecode.gen.opcode;
+
+import lsieun.bytecode.gen.cst.OpcodeConst;
+
+/**
+ * LDC - Push item from constant pool.
+ *
+ * <PRE>Stack: ... -&gt; ..., item</PRE>
+ */
+public final class LDC extends Instruction {
+
+    public int index;
+
+    public LDC(final int index) {
+        super(OpcodeConst.LDC, 2);
+        this.index = index;
+    }
+
+}

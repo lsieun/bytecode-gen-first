@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import lsieun.bytecode.gen.attrs.AttributeInfo;
+import lsieun.bytecode.gen.attrs.Code;
+import lsieun.bytecode.gen.attrs.SourceFile;
 import lsieun.bytecode.gen.classfile.ConstantPool;
 import lsieun.bytecode.gen.classfile.FieldInfo;
 import lsieun.bytecode.gen.classfile.JavaClass;
@@ -13,6 +15,7 @@ import lsieun.bytecode.gen.classfile.MethodInfo;
 import lsieun.bytecode.gen.cp.*;
 import lsieun.bytecode.gen.cst.JVMConst;
 
+@SuppressWarnings("Duplicates")
 public class DumpUtils {
     /**
      * Dump class to a file.
@@ -20,7 +23,7 @@ public class DumpUtils {
      * @param file Output file
      * @throws IOException
      */
-    public void dump(final JavaClass javaClass, final File file) throws IOException {
+    public void dumpJavaClass(final JavaClass javaClass, final File file) throws IOException {
         final String parent = file.getParent();
         if (parent != null) {
             final File dir = new File(parent);
@@ -38,126 +41,171 @@ public class DumpUtils {
     /**
      * Dump Java class to output stream in binary format.
      *
-     * @param out Output stream
+     * @param file Output stream
      * @throws IOException
      */
-    public void dumpJavaClass(final JavaClass javaClass, final DataOutputStream out) throws IOException {
+    public void dumpJavaClass(final JavaClass javaClass, final DataOutputStream file) throws IOException {
 
-        out.writeInt(JVMConst.JVM_CLASSFILE_MAGIC);
-        out.writeShort(javaClass.minor);
-        out.writeShort(javaClass.major);
-        dumpConstantPool(javaClass.constant_pool, out);
+        file.writeInt(JVMConst.JVM_CLASSFILE_MAGIC);
+        file.writeShort(javaClass.minor);
+        file.writeShort(javaClass.major);
+        dumpConstantPool(javaClass.constant_pool, file);
 
-        out.writeShort(javaClass.access_flags);
-        out.writeShort(javaClass.class_name_index);
-        out.writeShort(javaClass.superclass_name_index);
-        out.writeShort(javaClass.interfaces.length);
+        file.writeShort(javaClass.access_flags);
+        file.writeShort(javaClass.class_name_index);
+        file.writeShort(javaClass.superclass_name_index);
+        file.writeShort(javaClass.interfaces.length);
         for (final int interface_index : javaClass.interfaces) {
-            out.writeShort(interface_index);
+            file.writeShort(interface_index);
         }
 
-        out.writeShort(javaClass.fields.length);
+        file.writeShort(javaClass.fields.length);
         for (final FieldInfo field : javaClass.fields) {
-            dumpFieldInfo(field, out);
+            dumpFieldInfo(field, file);
         }
 
-        out.writeShort(javaClass.methods.length);
+        file.writeShort(javaClass.methods.length);
         for (final MethodInfo method : javaClass.methods) {
-            dumpMethodInfo(method, out);
+            dumpMethodInfo(method, file);
         }
 
         if (javaClass.attributes != null) {
-            out.writeShort(javaClass.attributes.length);
+            file.writeShort(javaClass.attributes.length);
             for (final AttributeInfo attribute : javaClass.attributes) {
-                dumpAttributeInfo(attribute, out);
+                dumpAttributeInfo(attribute, file);
             }
         } else {
-            out.writeShort(0);
+            file.writeShort(0);
         }
 
-        out.flush();
+        file.flush();
     }
 
-    public void dumpConstantPool(final ConstantPool constant_pool, final DataOutputStream out) throws IOException {
-        out.writeShort(constant_pool.count);
+    public void dumpConstantPool(final ConstantPool constant_pool, final DataOutputStream file) throws IOException {
+        file.writeShort(constant_pool.count);
         for (int i = 1; i < constant_pool.count; i++) {
             Constant constant = constant_pool.entries[i];
             if(constant == null) continue;
             if(constant instanceof ConstantUtf8) {
                 ConstantUtf8 item = (ConstantUtf8) constant;
 
-                out.writeByte(item.tag);
-                out.writeUTF(item.utf8Value);
+                file.writeByte(item.tag);
+                file.writeUTF(item.utf8Value);
             }
             else if(constant instanceof ConstantInteger) {
                 ConstantInteger item = (ConstantInteger) constant;
 
-                out.writeByte(item.tag);
-                out.writeInt(item.intValue);
+                file.writeByte(item.tag);
+                file.writeInt(item.intValue);
             }
             else if(constant instanceof ConstantFloat) {
                 ConstantFloat item = (ConstantFloat) constant;
 
-                out.writeByte(item.tag);
-                out.writeFloat(item.floatValue);
+                file.writeByte(item.tag);
+                file.writeFloat(item.floatValue);
             }
             else if(constant instanceof ConstantLong) {
                 ConstantLong item = (ConstantLong) constant;
 
-                out.writeByte(item.tag);
-                out.writeLong(item.longValue);
+                file.writeByte(item.tag);
+                file.writeLong(item.longValue);
             }
             else if(constant instanceof ConstantDouble) {
                 ConstantDouble item = (ConstantDouble) constant;
 
-                out.writeByte(item.tag);
-                out.writeDouble(item.doubleValue);
+                file.writeByte(item.tag);
+                file.writeDouble(item.doubleValue);
             }
             else if(constant instanceof ConstantClass) {
                 ConstantClass item = (ConstantClass) constant;
 
-                out.writeByte(item.tag);
-                out.writeShort(item.name_index);
+                file.writeByte(item.tag);
+                file.writeShort(item.name_index);
             }
             else if(constant instanceof ConstantString) {
                 ConstantString item = (ConstantString) constant;
 
-                out.writeByte(item.tag);
-                out.writeShort(item.string_index);
+                file.writeByte(item.tag);
+                file.writeShort(item.string_index);
             }
             else if(constant instanceof ConstantFieldref) {
                 ConstantFieldref item = (ConstantFieldref) constant;
 
-                out.writeByte(item.tag);
-                out.writeShort(item.class_index);
-                out.writeShort(item.name_and_type_index);
+                file.writeByte(item.tag);
+                file.writeShort(item.class_index);
+                file.writeShort(item.name_and_type_index);
             }
             else if(constant instanceof ConstantMethodref) {
                 ConstantMethodref item = (ConstantMethodref) constant;
 
-                out.writeByte(item.tag);
-                out.writeShort(item.class_index);
-                out.writeShort(item.name_and_type_index);
+                file.writeByte(item.tag);
+                file.writeShort(item.class_index);
+                file.writeShort(item.name_and_type_index);
             }
             else if(constant instanceof ConstantInterfaceMethodref) {
                 ConstantInterfaceMethodref item = (ConstantInterfaceMethodref) constant;
 
-                out.writeByte(item.tag);
-                out.writeShort(item.class_index);
-                out.writeShort(item.name_and_type_index);
+                file.writeByte(item.tag);
+                file.writeShort(item.class_index);
+                file.writeShort(item.name_and_type_index);
+            }
+            else if(constant instanceof ConstantNameAndType) {
+                ConstantNameAndType item = (ConstantNameAndType) constant;
+
+                file.writeByte(item.tag);
+                file.writeShort(item.name_index);
+                file.writeShort(item.descriptor_index);
+            }
+            else {
+                throw new RuntimeException("dumpConstantPool Exception: " + constant.getClass());
             }
         }
     }
 
-    public void dumpFieldInfo(final FieldInfo fieldInfo, final DataOutputStream out) {
-        //
+    public void dumpFieldInfo(final FieldInfo fieldInfo, final DataOutputStream file) throws IOException {
+        file.writeShort(fieldInfo.access_flags);
+        file.writeShort(fieldInfo.name_index);
+        file.writeShort(fieldInfo.signature_index);
+        file.writeShort(fieldInfo.attributes_count);
+        for(final AttributeInfo attr : fieldInfo.attributes) {
+            dumpAttributeInfo(attr, file);
+        }
     }
 
-    public void dumpMethodInfo(final MethodInfo methodInfo, final DataOutputStream out) {
-        //
+    public void dumpMethodInfo(final MethodInfo methodInfo, final DataOutputStream file) throws IOException {
+        file.writeShort(methodInfo.access_flags);
+        file.writeShort(methodInfo.name_index);
+        file.writeShort(methodInfo.signature_index);
+        file.writeShort(methodInfo.attributes_count);
+        for(final AttributeInfo attr : methodInfo.attributes) {
+            dumpAttributeInfo(attr, file);
+        }
     }
 
-    public void dumpAttributeInfo(final AttributeInfo attributeInfo, final DataOutputStream out) {
-        //
+    public void dumpAttributeInfo(final AttributeInfo attr, final DataOutputStream file) throws IOException {
+        file.writeShort(attr.attribute_name_index);
+        file.writeInt(attr.attribute_length);
+
+        if(1 == 2) {
+            //
+        }
+        else if(attr instanceof Code) {
+            Code item = (Code) attr;
+
+            file.writeShort(item.max_stack);
+            file.writeShort(item.max_locals);
+            file.writeInt(item.code.length);
+            file.write(item.code, 0, item.code.length);
+            file.writeShort(0); // exception_table_length
+            file.writeShort(0); // attributes_count
+        }
+        else if(attr instanceof SourceFile) {
+            SourceFile item = (SourceFile) attr;
+
+            file.writeShort(item.sourcefile_index);
+        }
+        else {
+            throw new RuntimeException("dumpAttributeInfo Exception: " + attr.getClass());
+        }
     }
 }
