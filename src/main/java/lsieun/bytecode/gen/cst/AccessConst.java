@@ -1,10 +1,6 @@
 package lsieun.bytecode.gen.cst;
 
 public class AccessConst {
-    public static final int TYPE_CLASS = 1;
-    public static final int TYPE_FIELD = 2;
-    public static final int TYPE_METHOD = 3;
-
     public static final int ACC_PUBLIC    = 0x0001;
     public static final int ACC_PRIVATE   = 0x0002;
     public static final int ACC_PROTECTED = 0x0004;

@@ -10,6 +10,7 @@ import lsieun.bytecode.gen.classfile.FieldInfo;
 import lsieun.bytecode.gen.classfile.JavaClass;
 import lsieun.bytecode.gen.classfile.MethodInfo;
 import lsieun.bytecode.gen.cst.JDKConst;
+import lsieun.bytecode.gen.cst.JVMConst;
 import lsieun.bytecode.gen.opcode.ALOAD_0;
 import lsieun.bytecode.gen.opcode.INVOKESPECIAL;
 import lsieun.bytecode.gen.opcode.RETURN;
@@ -97,7 +98,7 @@ public class ClassGen {
     public void addEmptyConstructor(final int access_flags) {
         final InstructionList il = new InstructionList();
         il.append(new ALOAD_0()); // Push `this'
-        il.append(new INVOKESPECIAL(cpg.addMethodref(super_class_name, "<init>", "()V")));
+        il.append(new INVOKESPECIAL(cpg.addMethodref(super_class_name, JVMConst.CONSTRUCTOR_NAME, "()V")));
         il.append(new RETURN());
         final MethodGen mg = new MethodGen(access_flags, TypeUtils.VOID, TypeUtils.NO_ARGS, null, "<init>",
                 class_name, il.getByteCode(), 3, 3, cpg);
