@@ -23,7 +23,7 @@ public class DumpUtils {
      * @param file Output file
      * @throws IOException
      */
-    public void dumpJavaClass(final JavaClass javaClass, final File file) throws IOException {
+    public static void dumpJavaClass(final JavaClass javaClass, final File file) throws IOException {
         final String parent = file.getParent();
         if (parent != null) {
             final File dir = new File(parent);
@@ -44,7 +44,7 @@ public class DumpUtils {
      * @param file Output stream
      * @throws IOException
      */
-    public void dumpJavaClass(final JavaClass javaClass, final DataOutputStream file) throws IOException {
+    public static void dumpJavaClass(final JavaClass javaClass, final DataOutputStream file) throws IOException {
 
         file.writeInt(JVMConst.JVM_CLASSFILE_MAGIC);
         file.writeShort(javaClass.minor);
@@ -81,7 +81,7 @@ public class DumpUtils {
         file.flush();
     }
 
-    public void dumpConstantPool(final ConstantPool constant_pool, final DataOutputStream file) throws IOException {
+    public static void dumpConstantPool(final ConstantPool constant_pool, final DataOutputStream file) throws IOException {
         file.writeShort(constant_pool.count);
         for (int i = 1; i < constant_pool.count; i++) {
             Constant constant = constant_pool.entries[i];
@@ -162,7 +162,7 @@ public class DumpUtils {
         }
     }
 
-    public void dumpFieldInfo(final FieldInfo fieldInfo, final DataOutputStream file) throws IOException {
+    public static void dumpFieldInfo(final FieldInfo fieldInfo, final DataOutputStream file) throws IOException {
         file.writeShort(fieldInfo.access_flags);
         file.writeShort(fieldInfo.name_index);
         file.writeShort(fieldInfo.signature_index);
@@ -172,7 +172,7 @@ public class DumpUtils {
         }
     }
 
-    public void dumpMethodInfo(final MethodInfo methodInfo, final DataOutputStream file) throws IOException {
+    public static void dumpMethodInfo(final MethodInfo methodInfo, final DataOutputStream file) throws IOException {
         file.writeShort(methodInfo.access_flags);
         file.writeShort(methodInfo.name_index);
         file.writeShort(methodInfo.signature_index);
@@ -182,7 +182,7 @@ public class DumpUtils {
         }
     }
 
-    public void dumpAttributeInfo(final AttributeInfo attr, final DataOutputStream file) throws IOException {
+    public static void dumpAttributeInfo(final AttributeInfo attr, final DataOutputStream file) throws IOException {
         file.writeShort(attr.attribute_name_index);
         file.writeInt(attr.attribute_length);
 

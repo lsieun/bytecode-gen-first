@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -17,4 +20,16 @@ public final class IINC extends Instruction {
         this.constValue = constValue;
     }
 
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        if(wide) {
+            out.writeShort(index);
+            out.writeShort(constValue);
+        }
+        else {
+            out.writeByte(index);
+            out.writeByte(constValue);
+        }
+    }
 }

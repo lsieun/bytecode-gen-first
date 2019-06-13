@@ -10,6 +10,10 @@ import lsieun.bytecode.gen.classfile.FieldInfo;
 import lsieun.bytecode.gen.classfile.JavaClass;
 import lsieun.bytecode.gen.classfile.MethodInfo;
 import lsieun.bytecode.gen.cst.JDKConst;
+import lsieun.bytecode.gen.opcode.ALOAD_0;
+import lsieun.bytecode.gen.opcode.INVOKESPECIAL;
+import lsieun.bytecode.gen.opcode.RETURN;
+import lsieun.bytecode.gen.utils.InstructionList;
 import lsieun.bytecode.gen.utils.TypeUtils;
 
 public class ClassGen {
@@ -85,19 +89,20 @@ public class ClassGen {
 
     /**
      * Convenience method.
-     *
+     * <p>
      * Add an empty constructor to this class that does nothing but calling super().
+     *
      * @param access_flags rights for constructor
      */
-    public void addEmptyConstructor( final int access_flags ) {
-//        final InstructionList il = new InstructionList();
-//        il.append(InstructionConst.THIS); // Push `this'
-//        il.append(new INVOKESPECIAL(cpg.addMethodref(super_class_name, "<init>", "()V")));
-//        il.append(InstructionConst.RETURN);
-//        final MethodGen mg = new MethodGen(access_flags, TypeUtils.VOID, TypeUtils.NO_ARGS, null, "<init>",
-//                class_name, il, cpg);
-//        mg.setMaxStack(1);
-//        addMethod(mg.getMethod());
+    public void addEmptyConstructor(final int access_flags) {
+        final InstructionList il = new InstructionList();
+        il.append(new ALOAD_0()); // Push `this'
+        il.append(new INVOKESPECIAL(cpg.addMethodref(super_class_name, "<init>", "()V")));
+        il.append(new RETURN());
+        final MethodGen mg = new MethodGen(access_flags, TypeUtils.VOID, TypeUtils.NO_ARGS, null, "<init>",
+                class_name, il.getByteCode(), 3, 3, cpg);
+
+        addMethod(mg.getMethod());
     }
 
     public void addAttribute(final AttributeInfo attr) {

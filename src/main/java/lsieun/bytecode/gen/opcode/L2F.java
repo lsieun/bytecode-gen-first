@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -12,4 +15,8 @@ public final class L2F extends Instruction {
         super(OpcodeConst.L2F, 1);
     }
 
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+    }
 }

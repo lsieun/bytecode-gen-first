@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -16,6 +19,12 @@ public final class BIPUSH extends Instruction {
     public BIPUSH(final byte value) {
         super(OpcodeConst.BIPUSH, 2);
         this.value = value;
+    }
+
+    @Override
+    public void dump(final DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        out.writeByte(value);
     }
 
 }

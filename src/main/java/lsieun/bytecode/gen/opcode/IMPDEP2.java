@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -11,4 +14,8 @@ public final class IMPDEP2 extends Instruction {
         super(OpcodeConst.IMPDEP2, 1);
     }
 
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        throw new RuntimeException("");
+    }
 }

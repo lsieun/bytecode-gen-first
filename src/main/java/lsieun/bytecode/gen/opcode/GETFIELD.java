@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -8,7 +11,7 @@ import lsieun.bytecode.gen.cst.OpcodeConst;
  * OR
  * <PRE>Stack: ..., objectref -&gt; ..., value.word1, value.word2</PRE>
  */
-public class GETFIELD extends Instruction {
+public final class GETFIELD extends Instruction {
 
     public int index;
 
@@ -17,4 +20,9 @@ public class GETFIELD extends Instruction {
         this.index = index;
     }
 
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        out.writeShort(index);
+    }
 }

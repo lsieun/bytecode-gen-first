@@ -1,10 +1,7 @@
 package lsieun.bytecode.gen.utils;
 
 import lsieun.bytecode.gen.cst.TypeConst;
-import lsieun.bytecode.gen.type.BasicType;
-import lsieun.bytecode.gen.type.ObjectType;
-import lsieun.bytecode.gen.type.ReferenceType;
-import lsieun.bytecode.gen.type.Type;
+import lsieun.bytecode.gen.type.*;
 
 public class TypeUtils {
     /**
@@ -25,6 +22,7 @@ public class TypeUtils {
     public static final ObjectType STRINGBUFFER = new ObjectType("java.lang.StringBuffer");
     public static final ObjectType THROWABLE = new ObjectType("java.lang.Throwable");
     public static final Type[] NO_ARGS = new Type[0]; // EMPTY, so immutable
+    public static final Type[] STR_ARGS = new Type[] {new ArrayType("java.lang.String", 1)};
     public static final ReferenceType NULL = new ReferenceType() {
     };
     public static final Type UNKNOWN = new Type(TypeConst.T_UNKNOWN, "<unknown object>") {

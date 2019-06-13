@@ -378,12 +378,12 @@ public class ConstantPoolGen {
     /**
      * Look for ConstantMethodref in ConstantPool.
      *
-     * @param class_name Where to find method
+     * @param class_name  Where to find method
      * @param method_name Guess what
-     * @param signature return and argument types
+     * @param signature   return and argument types
      * @return index on success, -1 otherwise
      */
-    public int lookupMethodref( final String class_name, final String method_name, final String signature ) {
+    public int lookupMethodref(final String class_name, final String method_name, final String signature) {
         final Index index = ref_table.get(class_name + METHODREF_DELIM + method_name + METHODREF_DELIM + signature);
         return (index != null) ? index.index : -1;
     }
@@ -392,12 +392,12 @@ public class ConstantPoolGen {
      * Add a new Methodref constant to the ConstantPool, if it is not already
      * in there.
      *
-     * @param class_name class name string to add
+     * @param class_name  class name string to add
      * @param method_name method name string to add
-     * @param signature method signature string to add
+     * @param signature   method signature string to add
      * @return index of entry
      */
-    public int addMethodref( final String class_name, final String method_name, final String signature ) {
+    public int addMethodref(final String class_name, final String method_name, final String signature) {
         int ret;
         int class_index;
         int name_and_type_index;
@@ -419,12 +419,12 @@ public class ConstantPoolGen {
     /**
      * Look for ConstantInterfaceMethodref in ConstantPool.
      *
-     * @param class_name Where to find method
+     * @param class_name  Where to find method
      * @param method_name Guess what
-     * @param signature return and argument types
+     * @param signature   return and argument types
      * @return index on success, -1 otherwise
      */
-    public int lookupInterfaceMethodref( final String class_name, final String method_name, final String signature ) {
+    public int lookupInterfaceMethodref(final String class_name, final String method_name, final String signature) {
         final Index index = ref_table.get(class_name + IMETHODREF_DELIM + method_name + IMETHODREF_DELIM + signature);
         return (index != null) ? index.index : -1;
     }
@@ -433,12 +433,12 @@ public class ConstantPoolGen {
      * Add a new InterfaceMethodref constant to the ConstantPool, if it is not already
      * in there.
      *
-     * @param class_name class name string to add
+     * @param class_name  class name string to add
      * @param method_name method name string to add
-     * @param signature signature string to add
+     * @param signature   signature string to add
      * @return index of entry
      */
-    public int addInterfaceMethodref( final String class_name, final String method_name, final String signature ) {
+    public int addInterfaceMethodref(final String class_name, final String method_name, final String signature) {
         int ret;
         int class_index;
         int name_and_type_index;
@@ -459,6 +459,7 @@ public class ConstantPoolGen {
     // endregion
 
     // region constant pool
+
     /**
      * @return intermediate constant pool
      */

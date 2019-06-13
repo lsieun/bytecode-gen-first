@@ -29,12 +29,12 @@ public class MethodGen {
     private int max_stack;
 
     // Auxiliary Tool
-    private ConstantPoolGen cp;
+    private ConstantPoolGen cpg;
 
     public MethodGen(final int access_flags, final Type return_type, final Type[] arg_types, String[] arg_names,
                      final String method_name, final String class_name,
                      final byte[] code_bytes, int max_locals, int max_stack,
-                     final ConstantPoolGen cp) {
+                     final ConstantPoolGen cpg) {
         //Class Info
         this.class_name = class_name;
 
@@ -51,7 +51,7 @@ public class MethodGen {
         this.max_stack = max_stack;
 
         // Auxiliary Tool
-        this.cp = cp;
+        this.cpg = cpg;
 
         if (arg_types != null) {
             final int size = arg_types.length;
@@ -96,8 +96,8 @@ public class MethodGen {
      */
     public MethodInfo getMethod() {
         final String signature = getSignature();
-        final int name_index = cp.addUtf8(this.method_name);
-        final int signature_index = cp.addUtf8(signature);
+        final int name_index = cpg.addUtf8(this.method_name);
+        final int signature_index = cpg.addUtf8(signature);
 
         final AttributeInfo[] code_attrs = new AttributeInfo[0];
         /* Each attribute causes 6 additional header bytes
@@ -109,7 +109,7 @@ public class MethodGen {
 
         int exc_len = 0 * 8; // Every entry takes 8 bytes
 
-        Code code = code = new Code(cp.addUtf8("Code"), 8 + code_bytes.length + // prologue byte code
+        Code code = code = new Code(cpg.addUtf8("Code"), 8 + code_bytes.length + // prologue byte code
                 2 + exc_len + // exceptions
                 2 + attrs_len, // attributes
                 max_stack, max_locals, code_bytes);

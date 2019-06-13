@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -14,6 +17,12 @@ public final class IF_ICMPGE extends Instruction {
     public IF_ICMPGE(final int branch) {
         super(OpcodeConst.IF_ICMPGE, 3);
         this.branch = branch;
+    }
+
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        out.writeShort(branch);
     }
 
 }

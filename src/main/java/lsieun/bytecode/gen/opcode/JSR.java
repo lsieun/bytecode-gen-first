@@ -1,11 +1,14 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
  * JSR - Jump to subroutine
  */
-public class JSR extends Instruction {
+public final class JSR extends Instruction {
 
     public int branch;
 
@@ -14,4 +17,9 @@ public class JSR extends Instruction {
         this.branch = branch;
     }
 
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        out.writeShort(branch);
+    }
 }

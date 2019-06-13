@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -14,6 +17,12 @@ public final class IF_ICMPLT extends Instruction {
     public IF_ICMPLT(final int branch) {
         super(OpcodeConst.IF_ICMPLT, 3);
         this.branch = branch;
+    }
+
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        out.writeShort(branch);
     }
 
 }

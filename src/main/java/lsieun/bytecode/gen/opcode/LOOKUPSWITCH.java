@@ -1,11 +1,14 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
  * LOOKUPSWITCH - Switch with unordered set of values
  */
-public class LOOKUPSWITCH extends Instruction {
+public final class LOOKUPSWITCH extends Instruction {
 
     public int defaultbranch;
     public int npairs;
@@ -18,4 +21,9 @@ public class LOOKUPSWITCH extends Instruction {
         throw new RuntimeException("LOOKUPSWITCH");
     }
 
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        throw new RuntimeException("");
+    }
 }

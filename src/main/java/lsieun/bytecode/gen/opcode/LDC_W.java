@@ -1,5 +1,8 @@
 package lsieun.bytecode.gen.opcode;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import lsieun.bytecode.gen.cst.OpcodeConst;
 
 /**
@@ -14,5 +17,11 @@ public final class LDC_W extends Instruction {
     public LDC_W(final int index) {
         super(OpcodeConst.LDC_W, 3);
         this.index = index;
+    }
+
+    @Override
+    public void dump(DataOutputStream out) throws IOException {
+        out.writeByte(opcode);
+        out.writeShort(index);
     }
 }
