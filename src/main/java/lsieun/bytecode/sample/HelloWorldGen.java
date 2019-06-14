@@ -18,7 +18,7 @@ import lsieun.bytecode.gen.utils.InstructionList;
 import lsieun.bytecode.gen.utils.TypeUtils;
 
 public class HelloWorldGen {
-    private static final String CLASSNAME = "HelloWorld";
+    private static final String CLASSNAME = "com.abc.HelloWorld";
 
     public static void main(String[] args) {
         ConstantPoolGen cpg = new ConstantPoolGen();
@@ -39,7 +39,7 @@ public class HelloWorldGen {
 
         // Output
         String path = HelloWorldGen.class.getResource("/").getPath();
-        String filename = path + "HelloWorld.class";
+        String filename = path + CLASSNAME.replace('.', File.separatorChar) + ".class";
 
         System.out.println("file://" + filename);
 
